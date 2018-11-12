@@ -1,3 +1,3 @@
-# Calculator-SE137
+# Calculator
 
 Simple calculator with Swift.
