@@ -1,17 +1,20 @@
 //
 //  ViewController.swift
-//  137-Calculator
+//  137-Calculator3
 //
-//  Created by Roya on 2/17/16.
+//  Created by Roya on 2/18/16.
 //  Copyright © 2016 Roya. All rights reserved.
 //
 
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    
     @IBOutlet weak var display: UILabel!
     
+    var n = 1
+    var opo : String = ""
     var userIsInTheMiddleOfTypingANumber = false
     var brain = CalculatorBrain()
     var displayValue: Double
@@ -29,6 +32,7 @@ class ViewController: UIViewController {
         
     }
     
+    
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInTheMiddleOfTypingANumber
@@ -43,26 +47,80 @@ class ViewController: UIViewController {
     }
 
     
+    @IBAction func enter() {
+        userIsInTheMiddleOfTypingANumber = false
+        if let result = brain.pushOperand(displayValue){ displayValue = result }
+        //else if let result = brain.performOperation(opo) {display.text = opo}
+    else {displayValue = 0}
+    }
+    
     @IBAction func operate(sender: UIButton) {
-        if userIsInTheMiddleOfTypingANumber{ enter() }
+        //added by roya
+        opo = sender.currentTitle!
+        if userIsInTheMiddleOfTypingANumber
+        {
+            display.text = display.text! + opo
+        }
+        else
+        {
+            display.text = opo
+            userIsInTheMiddleOfTypingANumber = true
+        }
+        //done adding
+        /*if userIsInTheMiddleOfTypingANumber{ enter() }
         if let operation = sender.currentTitle
         {
             if let result = brain.performOperation(operation) {displayValue = result}
             else {displayValue = 0}
-        }
+        }*/
+        
     }
     
     @IBAction func clear() {
         userIsInTheMiddleOfTypingANumber = false
-        brain.clear()
+    
+        if n == 1{
+            brain.clear()
+            enter()
+            n++
+        }
+        else if n == 2{
+            n = 1
+            brain.clear()
+        }
+        
         displayValue = 0
     }
     
-    
-    @IBAction func enter() {
+    @IBAction func equalPressed(sender: UIButton) {
         userIsInTheMiddleOfTypingANumber = false
-        if let result = brain.pushOperand(displayValue){ displayValue = result }
+        if let result = brain.performOperation(opo) {displayValue = result}
         else {displayValue = 0}
+
+    }
+    
+    
+    @IBAction func storeInMemory(sender: UIButton) {
+        brain.MS(displayValue)
+        
+    }
+    
+    
+    @IBAction func addToMemory(sender: UIButton) {
+        brain.addM(displayValue)
+    }
+    
+    @IBAction func recallFromMemory() {
+        displayValue = brain.memoRecall()
+    }
+   
+    @IBAction func clearMemory() {
+        brain.memoClear()
+    }
+    
+    
+    @IBAction func displayAll() {
+        brain.displayOnCalc()
     }
     
     override func viewDidLoad() {

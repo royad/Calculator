@@ -1,15 +1,15 @@
 //
-//  _37_CalculatorTests.swift
-//  137-CalculatorTests
+//  _37_Calculator3Tests.swift
+//  137-Calculator3Tests
 //
-//  Created by Roya on 2/17/16.
+//  Created by Roya on 2/18/16.
 //  Copyright © 2016 Roya. All rights reserved.
 //
 
 import XCTest
-@testable import _37_Calculator
+@testable import _37_Calculator3
 
-class _37_CalculatorTests: XCTestCase {
+class _37_Calculator3Tests: XCTestCase {
     
     override func setUp() {
         super.setUp()

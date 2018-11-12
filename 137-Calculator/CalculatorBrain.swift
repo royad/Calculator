@@ -1,15 +1,16 @@
 //
 //  CalculatorBrain.swift
-//  137-Calculator
+//  137-Calculator3
 //
-//  Created by Roya on 2/17/16.
+//  Created by Roya on 2/18/16.
 //  Copyright © 2016 Roya. All rights reserved.
 //
 
+import Foundation
 class CalculatorBrain
 {
     
-    private enum Op: CustomStringConvertible
+    internal enum Op: CustomStringConvertible
     {
         case Operand(Double)
         case UnaryOperation(String, Double -> Double)
@@ -32,13 +33,17 @@ class CalculatorBrain
     private var opStack = [Op]()
     private var knownOps = [String: Op]()
     
+    private var operate : [String] = []
+    private var operands : [Double] = []
+    
     init()
     {
         knownOps["×"] = Op.BinaryOperation("×", *)
         knownOps["÷"] = Op.BinaryOperation("÷") { $1 / $0 }
         knownOps["+"] = Op.BinaryOperation("+", +)
-        knownOps["+"] = Op.BinaryOperation("−") { $1 - $0 }
-
+        knownOps["−"] = Op.BinaryOperation("−") { $1 - $0 }
+        knownOps["%"] = Op.BinaryOperation("%") { $1 / 100.0 }
+        knownOps["√"] = Op.UnaryOperation("√", sqrt)
     }
     
     private func evaluate(ops: [Op]) -> (result: Double?, remainingOps: [Op])
@@ -82,13 +87,24 @@ class CalculatorBrain
     
     func pushOperand(operand: Double) -> Double?
     {
+        operands.append(operand) // added by roya
         opStack.append(Op.Operand(operand))
         return evaluate()
     }
     
+    //added by roya
+    func pushOperator(opo: String) -> String?
+    {
+        operate.append(opo)
+        return opo
+    }
+    
     func performOperation(symbol: String) -> Double?
     {
-        if let operation = knownOps[symbol] { opStack.append(operation) }
+        if let operation = knownOps[symbol] {
+            opStack.append(operation)
+            operate.append(symbol) // added by roya
+        }
         return evaluate()
     }
     
@@ -97,4 +113,40 @@ class CalculatorBrain
         opStack = [Op]()
         evaluate()
     }
-}
+    
+    func MS(operand: Double)
+    {
+        opStack.append(Op.Operand(operand))
+        //operands.append(operand)
+    }
+    
+    func addM(operand: Double)
+    {
+        let lastV = operands.last
+        //let temp = Double(String(opStack.last))
+        //print (temp)
+        //let number = temp! + operand
+       // opStack.append(Op.Operand(2.0))
+        opStack.append(Op.Operand(lastV! + operand))
+    }
+    
+    func memoClear()
+        
+    {
+        opStack.removeAll()
+        opStack.append(Op.Operand(0))
+        //double checking if it sets the memo to zero
+    }
+    
+    func memoRecall () ->Double{
+        let lastNumber = operands.last
+        return lastNumber!
+    }
+    
+    func displayOnCalc(){
+        
+        //for opo in operate{
+           // return
+        }
+    }
+

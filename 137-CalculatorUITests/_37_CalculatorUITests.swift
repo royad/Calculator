@@ -1,14 +1,14 @@
 //
-//  _37_CalculatorUITests.swift
-//  137-CalculatorUITests
+//  _37_Calculator3UITests.swift
+//  137-Calculator3UITests
 //
-//  Created by Roya on 2/17/16.
+//  Created by Roya on 2/18/16.
 //  Copyright © 2016 Roya. All rights reserved.
 //
 
 import XCTest
 
-class _37_CalculatorUITests: XCTestCase {
+class _37_Calculator3UITests: XCTestCase {
         
     override func setUp() {
         super.setUp()
